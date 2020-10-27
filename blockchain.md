@@ -30,3 +30,11 @@ merkle hash记录了本区块所有的merkle hash
 区块头部的prev hash记录了上一个区块的block hash
 
 ![](img/blockhash.png)
+
+## packet
+
+钱包软件是用来帮组用户管理私钥的
+
+## public key and private key
+
+![](img/keys.jpg)
