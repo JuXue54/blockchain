@@ -1,4 +1,4 @@
-```
+```java
 // Bucket operations
 CreateBucket(bucketName)
 DeleteBucket(bucketName)
