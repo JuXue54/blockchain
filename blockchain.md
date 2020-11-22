@@ -87,3 +87,69 @@ K或L开头
 + MPT Merkle Patricia Tree
 
 ![](img/MPT.png)
+
+### deploy
+
+compile in windows
+```go
+go get github.com/ethereum/go-ethereum
+cd %GOPATH%\src\github.com\ethereum\go-ethereum
+go install -v ./...
+```
+edit the genesis.json
+```json
+{
+    "nonce": "0x0000000000000042",
+    "difficulty": "0x400",
+    "mixhash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "coinbase": "0x0000000000000000000000000000000000000000",
+    "timestamp": "0x00",
+    "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "extraData": "0x11bbe8db4e347b4e8c937c1c8370e4b5ed33adb3db69cbdb7a38e1e50b1b82fa",
+    "gasLimit": "0x4c4b4000000",
+    "config": {
+        "chainId": 1534,
+        "homesteadBlock": 0,
+        "eip150Block": 0,
+        "eip155Block": 0,
+        "eip158Block": 0,
+        "byzantiumBlock": 0,
+        "constantinopleBlock": 0,
+        "petersburgBlock": 0
+    },
+    "alloc": {
+	"address":
+	{"balance":"0x800000000000000000000"}
+	}
+}
+```
+address is created by the next step
+
+deploy a test node
+```shell
+cd %GOPATH%\bin
+.\geth account new --datadir testnet\chaindata
+.\geth removedb --datadir testnet\chaindata\
+.\geth --identity "BlockGeekTestNode" --datadir testnet\chaindata init testnet\genesis.json
+.\geth --rpc --rpcaddr 0.0.0.0 --rpccorsdomain "*" --ws --wsaddr 0.0.0.0 --wsorigins "*" --datadir testnet\chaindata --networkid 1534 --nodiscover --allow-insecure-unlock
+```
+
+test
+```javascript
+personal.newAccount("test1") //create new account
+eth.accounts                  // all accounts
+web3.fromWei(eth.getBalance(addr),"ether")  //get the ether
+miner.setEtherbase(addr3)                   //set the behalf of miner
+eth.coinbase                               //the behalf of miner
+eth.blockNumber                            // block number
+personal.unlockAccount(addr1,"password")        //unlock the account 
+eth.sendTransaction({from:addr1,to:addr2,value:web3.toWei(10.0,'ether')})   //tx
+
+txpool.status                                   //transaction status
+miner.start()
+miner.stop() 
+
+eth.getBlock(1)
+eth.getTransaction("hash")
+
+```
