@@ -79,3 +79,11 @@ K或L开头
 
 地址以1开头
 
+## ethereum
+
+### data structure
+
++ RLP
++ MPT Merkle Patricia Tree
+
+![](img/MPT.png)
