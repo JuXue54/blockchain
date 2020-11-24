@@ -88,6 +88,31 @@ K或L开头
 
 ![](img/MPT.png)
 
+### transaction structure
+
+![](img\tx.png)
+
+### transaction process
+
+![](img\txprocess.png)
+
+### ethereum block
+
+![](img\block.png)
+
+### address
+
+![](img\EIP55.png)
+
+
+
+Instead of UTXO model in bitcoin, ethereum uses one account one balance model. It contains accounts as follows:
+
++ EOA 
++ COA
++ 0x0
++ 0xdead
+
 ### deploy
 
 compile in windows
