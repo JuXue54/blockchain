@@ -113,6 +113,27 @@ Instead of UTXO model in bitcoin, ethereum uses one account one balance model. I
 + 0x0
 + 0xdead
 
+### state of ethereum
+
+![](img\state.png)
+
+### Mining
+
+![](img\DAG.png)
+
+![mining process](img\ethash.png)
+
+分叉问题：最大难度原则
+
+### EVM
+
++ 基于栈的虚拟机，一次调用产生一个实例
++ 每一个栈的元素大小是32字节
++ 大小无限制，调用深度上限1024
++ 临时/永久存储区别
+
+![](img\statetransactioncycle.png)
+
 ### deploy
 
 compile in windows
