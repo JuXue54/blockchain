@@ -90,19 +90,19 @@ K或L开头
 
 ### transaction structure
 
-![](img\tx.png)
+![](img/tx.png)
 
 ### transaction process
 
-![](img\txprocess.png)
+![](img/txprocess.png)
 
 ### ethereum block
 
-![](img\block.png)
+![](img/block.png)
 
 ### address
 
-![](img\EIP55.png)
+![](img/EIP55.png)
 
 
 
@@ -115,13 +115,13 @@ Instead of UTXO model in bitcoin, ethereum uses one account one balance model. I
 
 ### state of ethereum
 
-![](img\state.png)
+![](img/state.png)
 
 ### Mining
 
-![](img\DAG.png)
+![](img/DAG.png)
 
-![mining process](img\ethash.png)
+![mining process](img/ethash.png)
 
 分叉问题：最大难度原则
 
@@ -132,7 +132,7 @@ Instead of UTXO model in bitcoin, ethereum uses one account one balance model. I
 + 大小无限制，调用深度上限1024
 + 临时/永久存储区别
 
-![](img\statetransactioncycle.png)
+![](img/statetransactioncycle.png)
 
 ### deploy
 
