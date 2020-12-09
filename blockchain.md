@@ -164,8 +164,9 @@ edit the genesis.json
         "petersburgBlock": 0
     },
     "alloc": {
-	"address":
-	{"balance":"0x800000000000000000000"}
+		"address": {
+            "balance":"0x800000000000000000000"
+        }
 	}
 }
 ```
@@ -174,15 +175,15 @@ address is created by the next step
 deploy a test node
 ```shell
 cd %GOPATH%\bin
-.\geth account new --datadir testnet\chaindata   //modify the genesis file accourding to the address
-.\geth removedb --datadir testnet\chaindata\
-.\geth --identity "BlockGeekTestNode" --datadir testnet\chaindata init testnet\genesis.json
-.\geth --http --http.addr 0.0.0.0 --http.corsdomain "*" --ws --ws.addr 0.0.0.0 --ws.origins "*" --datadir testnet\chaindata --networkid 1534 --nodiscover --allow-insecure-unlock
+geth account new --datadir testnet\chaindata   //modify the genesis file accourding to the address
+geth removedb --datadir testnet\chaindata\
+geth --identity "BlockGeekTestNode" --datadir testnet\chaindata init testnet\genesis.json
+geth --http --http.addr 0.0.0.0 --http.corsdomain "*" --ws --ws.addr 0.0.0.0 --ws.origins "*" --datadir testnet\chaindata --networkid 1534 --nodiscover --allow-insecure-unlock
 ```
 
 test
 ```javascript
-.\geth attach \\.\pipe\geth.ipc
+geth attach \\.\pipe\geth.ipc
 personal.newAccount("test1") //create new account
 eth.accounts                  // all accounts
 web3.fromWei(eth.getBalance(addr),"ether")  //get the ether
