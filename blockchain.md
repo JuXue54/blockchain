@@ -8,14 +8,14 @@
 - 密码学理论保证货币防伪造，防双花；
 - 数字签名机制保证交易完整可信，不可抵赖和撤销。
 
-## hash算法
+### hash算法
 
 + hash256/dhash: SHA-256+SHA-256
 + hash160: SHA-256+RipeMD160
 
-## 区块链不可篡改特性
+### 区块链不可篡改特性
 
-### merkle hash
+#### merkle hash
 
 merkle hash记录了本区块所有的merkle hash
 
@@ -25,13 +25,13 @@ merkle hash记录了本区块所有的merkle hash
 
 ![](img/merkle.png)
 
-### block hash
+#### block hash
 
 区块头部的prev hash记录了上一个区块的block hash
 
 ![](img/blockhash.png)
 
-## 数字签名
+### 数字签名
 
 发送方：signature=sign(message,SK)
 
@@ -43,15 +43,15 @@ y^2=x^3+7
 
 私钥是256位整数，公钥是2个256位整数
 
-## packet
+### packet
 
 钱包软件是用来帮组用户管理私钥的
 
-## public key and private key
+### public key and private key
 
 ![](img/keys.jpg)
 
-### private key（secrete key SK）
+#### private key（secrete key SK）
 
 对私钥进行编码   256位整数->字符串
 
@@ -67,7 +67,7 @@ K或L开头
 
 ![](img/skuncompress.png)
 
-### public key
+#### public key
 
 由于ECC曲线的特点，根据非压缩格式的公钥`(x, y)`的`x`实际上也可推算出`y`，但需要知道`y`的奇偶性，因此，可以根据`(x, y)`推算出`x'`，作为压缩格式的公钥。
 
@@ -134,7 +134,7 @@ Instead of UTXO model in bitcoin, ethereum uses one account one balance model. I
 
 ![](img/statetransactioncycle.png)
 
-### deploy
+### Deploy
 
 compile in windows
 ```go
@@ -199,5 +199,41 @@ miner.stop()
 
 eth.getBlock(1)
 eth.getTransaction("hash")
+```
+
+## Filecoin
+
+### Deploy
+
+It can only be deployed on linux or macos. Take centos for example
+
+```shell
+# Pre Requirement
+sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm; sudo yum install -y git gcc bzr jq pkgconfig clang llvm mesa-libGL-devel opencl-headers ocl-icd ocl-icd-devel hwloc-devel
+# Rustup
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# Go
+wget -c https://golang.org/dl/go1.15.5.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
+# lotus
+git clone https://github.com/filecoin-project/lotus.git
+cd lotus/
+# choose a network
+git checkout master # mainnet
+git checkout ntwk-calibration # calibration-net
+git checkout ntwk-nerpa # nerpa-net
+# install lotus
+make clean all
+sudo make install
+# start For mainnet only:
+lotus daemon --import-snapshot https://fil-chain-snapshots-fallback.s3.amazonaws.com/mainnet/minimal_finality_stateroots_latest.car
+```
+
+By default, the API listens on the local "loopback" interface (`127.0.0.1`). This is [configured](https://docs.filecoin.io/get-started/lotus/configuration-and-advanced-usage.html) in the `config.toml` file:
+
+```shell
+[API]
+  ListenAddress = "/ip4/<EXTERNAL_INTERFACE_IP>/tcp/3453/http" # port is an example
+  # Only relevant for lotus-miner
+  RemoteListenAddress = "<EXTERNAL_IP_AS_SEEN_BY_OTHERS<EXTERNAL_PORT_AS_SEEN_BY_OTHERS>"
 ```
 
