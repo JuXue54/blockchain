@@ -1,4 +1,4 @@
-# blockchain
+#  blockchain
 
 ## bitcoin
 
@@ -226,6 +226,8 @@ make clean all
 sudo make install
 # start For mainnet only:
 lotus daemon --import-snapshot https://fil-chain-snapshots-fallback.s3.amazonaws.com/mainnet/minimal_finality_stateroots_latest.car
+# start the lotus in daemon
+nohup lotus daemon 1>lotus.log 2>&1 &
 ```
 
 By default, the API listens on the local "loopback" interface (`127.0.0.1`). This is [configured](https://docs.filecoin.io/get-started/lotus/configuration-and-advanced-usage.html) in the `config.toml` file:
@@ -237,3 +239,54 @@ By default, the API listens on the local "loopback" interface (`127.0.0.1`). Thi
   RemoteListenAddress = "<EXTERNAL_IP_AS_SEEN_BY_OTHERS<EXTERNAL_PORT_AS_SEEN_BY_OTHERS>"
 ```
 
+### Chain management
+
+#### syncing from a trusted state snapshot
+
+```shell
+# The snapshot size is about 7GiB. This works for mainnet.
+lotus daemon --import-snapshot https://fil-chain-snapshots-fallback.s3.amazonaws.com/mainnet/minimal_finality_stateroots_latest.car
+
+# An alternative is to download first and use the file
+lotus daemon --import-snapshot <filename.car>
+```
+
+#### syncing from a full snapshot
+
+```shell
+lotus daemon --import-chain https://fil-chain-snapshots-fallback.s3.amazonaws.com/mainnet/complete_chain_with_finality_stateroots_latest.car
+```
+
+#### checking sync status
+
+```shell
+# Inspect the current sync status, sync workers etc:
+lotus sync status
+# Wait for the chain to be fully synced and get information in the meantime:
+lotus sync wait
+```
+
+#### creating a snapshot and restore a custom snapshot
+
+```shell
+lotus chain export <filename>
+# a prune snapshot
+lotus chain export --skip-old-msgs --recent-stateroots=2000 <filename>
+#where the --recent-stateroots flag specifies how many state roots to export. --skip-old-msgs will only include blocks directly referenced by the exported state roots.
+
+
+# Without verification
+lotus daemon --import-snapshot <filename>
+# With verification
+lotus daemon --import-chain <filename>
+# If you do not want the daemon to start once the snapshot has finished (this is useful in e.g. docker environments), add the --halt-after-import flag to the command
+lotus daemon --import-snapshot --halt-after-import <filename>
+```
+
+#### compacting the chain data
+
+It is possible to "prune" the current chain data used by Lotus to reduce the disk footprint of a Lotus node by resyncing from a minimal snapshot. This is a quick overview of the steps:
+
+1. Stop the lotus daemon, i.e. `lotus daemon stop`
+2. Remove the contents of the `datastore/chain/` folder in the Lotus path, i.e. `rm -rf ~/.lotus/datastore/chain/*`.
+3. Start the daemon using a minimal snapshot as explained above, i.e. `lotus daemon --import-snapshot https://fil-chain-snapshots-fallback.s3.amazonaws.com/mainnet/minimal_finality_stateroots_latest.car`.
